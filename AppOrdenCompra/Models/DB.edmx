@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dbOrdenCompraModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Concepto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_orden" Type="int" />
+          <Property Name="descripcion" Type="varchar" MaxLength="100" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="valor_unitario" Type="decimal" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Oden">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="establecimiento" Type="varchar" MaxLength="100" />
+          <Property Name="direccion" Type="varchar" MaxLength="100" />
+          <Property Name="ciudad" Type="varchar" MaxLength="100" />
+          <Property Name="propietario" Type="varchar" MaxLength="100" />
+          <Property Name="telefono" Type="varchar" MaxLength="100" />
+          <Property Name="nit" Type="varchar" MaxLength="100" />
+          <Property Name="total" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="fecha" Type="datetime" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_Oden_Concepto">
+          <End Role="Concepto" Type="Self.Concepto" Multiplicity="1" />
+          <End Role="Oden" Type="Self.Oden" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Oden">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbOrdenCompraModelStoreContainer">
+          <EntitySet Name="Concepto" EntityType="Self.Concepto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Oden" EntityType="Self.Oden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Oden_Concepto" Association="Self.FK_Oden_Concepto">
+            <End Role="Concepto" EntitySet="Concepto" />
+            <End Role="Oden" EntitySet="Oden" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dbOrdenCompraModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Concepto">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="valor_unitario" Type="Decimal" Precision="18" Scale="0" />
+          <NavigationProperty Name="Oden" Relationship="Self.FK_Oden_Concepto" FromRole="Concepto" ToRole="Oden" />
+        </EntityType>
+        <EntityType Name="Oden">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="establecimiento" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ciudad" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="propietario" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="nit" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="total" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Concepto" Relationship="Self.FK_Oden_Concepto" FromRole="Oden" ToRole="Concepto" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_Oden_Concepto">
+          <End Role="Concepto" Type="Self.Concepto" Multiplicity="1" />
+          <End Role="Oden" Type="Self.Oden" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Oden">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dbOrdenCompraEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Conceptoes" EntityType="Self.Concepto" />
+          <EntitySet Name="Odens" EntityType="Self.Oden" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_Oden_Concepto" Association="Self.FK_Oden_Concepto">
+            <End Role="Concepto" EntitySet="Conceptoes" />
+            <End Role="Oden" EntitySet="Odens" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dbOrdenCompraModelStoreContainer" CdmEntityContainer="dbOrdenCompraEntities">
+          <EntitySetMapping Name="Conceptoes">
+            <EntityTypeMapping TypeName="dbOrdenCompraModel.Concepto">
+              <MappingFragment StoreEntitySet="Concepto">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="valor_unitario" ColumnName="valor_unitario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Odens">
+            <EntityTypeMapping TypeName="dbOrdenCompraModel.Oden">
+              <MappingFragment StoreEntitySet="Oden">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="establecimiento" ColumnName="establecimiento" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="propietario" ColumnName="propietario" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="nit" ColumnName="nit" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dbOrdenCompraModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
